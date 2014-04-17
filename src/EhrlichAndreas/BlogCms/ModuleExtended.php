@@ -221,6 +221,24 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
                 (
                     'extern_id' => $extern_id_tmp,
                 );
+            
+                if ($author_id_tmp !== false)
+                {
+                    $param['author_id'] = $author_id_tmp;
+                }
+                else
+                {
+                    $param['author_id'] = '0';
+                }
+
+                if ($guid_tmp !== false)
+                {
+                    $param['guid'] = $guid_tmp;
+                }
+                else
+                {
+                    $param['guid'] = '0';
+                }
                 
                 $blog_id_tmp = $this->addBlog($param);
             }

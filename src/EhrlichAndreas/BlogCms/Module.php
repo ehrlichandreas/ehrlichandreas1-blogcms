@@ -173,11 +173,11 @@ class EhrlichAndreas_BlogCms_Module extends EhrlichAndreas_AbstractCms_Module
             'post_modified'         => 'post_modified',
             'post_content_filtered' => 'post_content_filtered',
             'post_id_parent'        => 'post_id_parent',
-            'guid'                  => 'guid',
             'menu_order'            => 'menu_order',
             'post_type'             => 'post_type',
             'post_mime_type'        => 'post_mime_type',
             'comment_count'         => 'comment_count',
+            'guid'                  => 'guid',
         );
     }
 

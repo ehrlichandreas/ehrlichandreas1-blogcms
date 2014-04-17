@@ -59,6 +59,7 @@
         "ehrlichandreas/ehrlichandreas1-db":            "dev-master",
         "ehrlichandreas/ehrlichandreas1-pdo":           "dev-master",
         "ehrlichandreas/ehrlichandreas1-util":          "dev-master",
+        "ehrlichandreas/ehrlichandreas1-keyvaluecms":   "dev-master",
 
         "zendframework/zendframework1" :                "1.*",
 

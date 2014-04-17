@@ -230,15 +230,6 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
                 {
                     $param['author_id'] = '0';
                 }
-
-                if ($guid_tmp !== false)
-                {
-                    $param['guid'] = $guid_tmp;
-                }
-                else
-                {
-                    $param['guid'] = '0';
-                }
                 
                 $blog_id_tmp = $this->addBlog($param);
             }
@@ -290,6 +281,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
         if ($author_id_tmp === false)
         {
             $author_id_tmp = '0';
+        }
+        
+        if ($guid_tmp === false)
+        {
+            $guid_tmp = '';
         }
         
         if ($post_id_tmp === false)

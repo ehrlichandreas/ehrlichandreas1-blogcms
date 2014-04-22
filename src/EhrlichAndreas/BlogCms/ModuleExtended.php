@@ -138,6 +138,12 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
         return $guid;
     }
     
+    /**
+     * 
+     * @param mixed $post
+     * @param boolean $checkExtern
+     * @return mixed
+     */
     public function addPostToBlog($post, $checkExtern = false)
     {
         $extern_id_tmp = $this->_getExternId($post);
@@ -301,6 +307,184 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             $param['guid'] = $guid_tmp;
             
             return $this->addPost($param);
+        }
+    }
+    
+    /**
+     * 
+     * @param mixed $comment
+     * @param boolean checkExtern
+     * @return mixed
+     */
+    public function addCommentToPost($comment, $checkExtern = false)
+    {
+        $extern_id_tmp = $this->_getExternId($post);
+        
+        $blog_id_tmp = $this->_getBlogId($post);
+        
+        $author_id_tmp = $this->_getAuthorId($post);
+        
+        $post_id_tmp = $this->_getPostId($post);
+        
+        $comment_id_tmp = $this->_getCommentId($post);
+        
+        $guid_tmp = $this->_getGuid($post);
+        
+        if ($checkExtern && $extern_id_tmp === false)
+        {
+            return false;
+        }
+        
+        if ($post_id_tmp !== false)
+        {
+            $param = array
+            (
+                'cols'  => array
+                (
+                    'post_id'   => 'post_id',
+                    'blog_id'   => 'blog_id',
+                ),
+                'where' => array
+                (
+                    'post_id'   => $post_id_tmp,
+                ),
+            );
+            
+            $rowset = $this->getPostList($param);
+            
+            if (count($rowset) == 0)
+            {
+                $post_id_tmp = false;
+            }
+            else
+            {
+                $post_id_tmp = $rowset[0]['post_id'];
+                
+                $blog_id_tmp = $rowset[0]['blog_id'];
+            }
+        }
+        
+        if ($post_id_tmp === false)
+        {
+            return false;
+        }
+        
+        if ($post_id_tmp !== false && $comment_id_tmp !== false)
+        {
+            $param = array
+            (
+                'cols'  => array
+                (
+                    'comment_id'    => 'comment_id',
+                ),
+                'where' => array
+                (
+                    'post_id'       => $post_id_tmp,
+                    'comment_id'    => $comment_id_tmp,
+                ),
+            );
+            
+            $rowset = $this->getCommentList($param);
+            
+            if (count($rowset) == 0)
+            {
+                $comment_id_tmp = false;
+            }
+        }
+        
+        if ($post_id_tmp !== false)
+        {
+            $param = $comment;
+            
+            if ($blog_id_tmp !== false)
+            {
+                $param['blog_id'] = $blog_id_tmp;
+            }
+            
+            if ($extern_id_tmp !== false)
+            {
+                $param['extern_id'] = $extern_id_tmp;
+            }
+            
+            if ($author_id_tmp !== false)
+            {
+                $param['author_id'] = $author_id_tmp;
+            }
+            
+            if ($post_id_tmp !== false)
+            {
+                $param['post_id'] = $post_id_tmp;
+            }
+            
+            if ($guid_tmp !== false)
+            {
+                $param['guid'] = $guid_tmp;
+            }
+            
+            $param['where'] = array
+            (
+                'comment_id'    => $comment_id_tmp,
+            );
+            
+            $this->editComment($param);
+            
+            return $comment_id_tmp;
+        }
+        
+        if ($extern_id_tmp === false)
+        {
+            $extern_id_tmp = '0';
+        }
+        
+        if ($blog_id_tmp === false)
+        {
+            $blog_id_tmp = '0';
+        }
+        
+        if ($author_id_tmp === false)
+        {
+            $author_id_tmp = '0';
+        }
+        
+        if ($post_id_tmp === false)
+        {
+            $post_id_tmp = '0';
+        }
+        
+        if ($guid_tmp === false)
+        {
+            $guid_tmp = '';
+        }
+        
+        if (is_array($comment))
+        {
+            if (isset($comment['extern_id_parent']))
+            {
+                $comment_id_parent_tmp = $comment['extern_id_parent'];
+            }
+            else
+            {
+                $comment_id_parent_tmp = '0';
+            }
+        }
+        
+        if ($comment_id_tmp === false)
+        {
+            $param = $comment;
+            
+            $param['blog_id'] = $blog_id_tmp;
+            
+            $param['extern_id'] = $extern_id_tmp;
+            
+            $param['author_id'] = $author_id_tmp;
+            
+            $param['post_id'] = $post_id_tmp;
+            
+            $param['guid'] = $guid_tmp;
+            
+            $param['extern_id_parent'] = $comment_id_parent_tmp;
+            
+            return $this->addComment($param);
         }
     }
 }

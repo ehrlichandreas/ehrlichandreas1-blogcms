@@ -318,17 +318,17 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
      */
     public function addCommentToPost($comment, $checkExtern = false)
     {
-        $extern_id_tmp = $this->_getExternId($post);
+        $extern_id_tmp = $this->_getExternId($comment);
         
-        $blog_id_tmp = $this->_getBlogId($post);
+        $blog_id_tmp = $this->_getBlogId($comment);
         
-        $author_id_tmp = $this->_getAuthorId($post);
+        $author_id_tmp = $this->_getAuthorId($comment);
         
-        $post_id_tmp = $this->_getPostId($post);
+        $post_id_tmp = $this->_getPostId($comment);
         
-        $comment_id_tmp = $this->_getCommentId($post);
+        $comment_id_tmp = $this->_getCommentId($comment);
         
-        $guid_tmp = $this->_getGuid($post);
+        $guid_tmp = $this->_getGuid($comment);
         
         if ($checkExtern && $extern_id_tmp === false)
         {

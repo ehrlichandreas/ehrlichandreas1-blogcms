@@ -392,7 +392,7 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             }
         }
         
-        if ($post_id_tmp !== false)
+        if ($comment_id_tmp !== false)
         {
             $param = $comment;
             

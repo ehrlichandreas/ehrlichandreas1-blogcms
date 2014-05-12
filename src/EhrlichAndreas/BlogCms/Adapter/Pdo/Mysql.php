@@ -38,6 +38,8 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
     {
         $this->_install_version_10000();
         
+        $this->_install_version_10001();
+        
         return $this;
     }
     
@@ -65,8 +67,6 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
         $tableComment = $this->getTableName($this->tableComment);
         
         $tablePost = $this->getTableName($this->tablePost);
-        
-        $tableVersion = $this->getTableName($this->tableVersion);
         
         $query = array();
 
@@ -231,6 +231,62 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
             
             $stmt->closeCursor();
             
+            
+            $this->_setVersion($dbAdapter, $tableVersion, $version);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return EhrlichAndreas_StockCms_Adapter_Pdo_Mysql
+     */
+    protected function _install_version_10001 ()
+    {
+        $version = '10001';
+        
+        $dbAdapter = $this->getConnection();
+        
+        $tableVersion = $this->getTableName($this->tableVersion);
+        
+        $versionDb = $this->_getVersion($dbAdapter, $tableVersion);
+        
+        if ($versionDb >= $version)
+        {
+            return $this;
+        }
+        
+        $tableBlog = $this->getTableName($this->tableBlog);
+        
+        $tableComment = $this->getTableName($this->tableComment);
+        
+        $tablePost = $this->getTableName($this->tablePost);
+        
+        $queries = array();
+        
+        
+        $query = array();
+
+        $query[] = 'ALTER TABLE `%table%` ';
+        $query[] = 'ADD ';
+        $query[] = '`extern_id_type` BIGINT(19) NOT NULL DEFAULT \'0\' AFTER `extern_id`; ';
+		
+		$queries[] = str_replace('%table%', $tableBlog, implode("\n", $query));
+		
+		$queries[] = str_replace('%table%', $tableComment, implode("\n", $query));
+		
+		$queries[] = str_replace('%table%', $tablePost, implode("\n", $query));
+        
+        
+        if ($versionDb < $version)
+        {
+            foreach ($queries as $query)
+            {
+                $stmt = $dbAdapter->query($query);
+
+                $stmt->closeCursor();
+            }
             
             $this->_setVersion($dbAdapter, $tableVersion, $version);
         }

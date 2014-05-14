@@ -96,6 +96,28 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
     
     /**
      * 
+     * @param string $extern_id
+     * @return mixed
+     */
+    protected function _getExternIdType($extern_id_type)
+    {
+        if (is_array($extern_id_type))
+        {
+            if (isset($extern_id_type['extern_id_type']))
+            {
+                $extern_id_type = $extern_id_type['extern_id_type'];
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        return $extern_id_type;
+    }
+    
+    /**
+     * 
      * @param string $post_id
      * @return mixed
      */
@@ -148,6 +170,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
     {
         $extern_id_tmp = $this->_getExternId($post);
         
+        $extern_id_type_tmp = $this->_getExternIdType($post);
+        
         $blog_id_tmp = $this->_getBlogId($post);
         
         $author_id_tmp = $this->_getAuthorId($post);
@@ -159,6 +183,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
         if ($checkExtern && $extern_id_tmp === false)
         {
             return false;
+        }
+        
+        if ($extern_id_type_tmp === false)
+        {
+            $extern_id_type_tmp = '0';
         }
         
         if ($post_id_tmp !== false)
@@ -215,7 +244,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
                 ),
                 'where' => array
                 (
-                    'extern_id' => $extern_id_tmp,
+                    'extern_id'         => $extern_id_tmp,
+                    'extern_id_type'    => $extern_id_type_tmp,
                 ),
             );
             
@@ -225,7 +255,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             {
                 $param = array
                 (
-                    'extern_id' => $extern_id_tmp,
+                    'extern_id'         => $extern_id_tmp,
+                    'extern_id_type'    => $extern_id_type_tmp,
                 );
             
                 if ($author_id_tmp !== false)
@@ -245,6 +276,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             }
         }
         
+        $extern_id_type_tmp = $this->_getExternIdType($post);
+        
         if ($post_id_tmp !== false)
         {
             $param = $post;
@@ -257,6 +290,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             if ($extern_id_tmp !== false)
             {
                 $param['extern_id'] = $extern_id_tmp;
+            }
+            
+            if ($extern_id_type_tmp !== false)
+            {
+                $param['extern_id_type'] = $extern_id_type_tmp;
             }
             
             if ($author_id_tmp !== false)
@@ -284,6 +322,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             $extern_id_tmp = '0';
         }
         
+        if ($extern_id_type_tmp === false)
+        {
+            $extern_id_type_tmp = '0';
+        }
+        
         if ($author_id_tmp === false)
         {
             $author_id_tmp = '0';
@@ -302,6 +345,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             
             $param['extern_id'] = $extern_id_tmp;
             
+            $param['extern_id_type'] = $extern_id_type_tmp;
+            
             $param['author_id'] = $author_id_tmp;
             
             $param['guid'] = $guid_tmp;
@@ -319,6 +364,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
     public function addCommentToPost($comment, $checkExtern = false)
     {
         $extern_id_tmp = $this->_getExternId($comment);
+        
+        $extern_id_type_tmp = $this->_getExternIdType($comment);
         
         $blog_id_tmp = $this->_getBlogId($comment);
         
@@ -406,6 +453,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
                 $param['extern_id'] = $extern_id_tmp;
             }
             
+            if ($extern_id_type_tmp !== false)
+            {
+                $param['extern_id_type'] = $extern_id_type_tmp;
+            }
+            
             if ($author_id_tmp !== false)
             {
                 $param['author_id'] = $author_id_tmp;
@@ -434,6 +486,11 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
         if ($extern_id_tmp === false)
         {
             $extern_id_tmp = '0';
+        }
+        
+        if ($extern_id_type_tmp === false)
+        {
+            $extern_id_type_tmp = '0';
         }
         
         if ($blog_id_tmp === false)
@@ -476,6 +533,8 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
             
             $param['extern_id'] = $extern_id_tmp;
             
+            $param['extern_id_type'] = $extern_id_type_tmp;
+            
             $param['author_id'] = $author_id_tmp;
             
             $param['post_id'] = $post_id_tmp;
@@ -488,3 +547,4 @@ class EhrlichAndreas_BlogCms_ModuleExtended extends EhrlichAndreas_BlogCms_Modul
         }
     }
 }
+

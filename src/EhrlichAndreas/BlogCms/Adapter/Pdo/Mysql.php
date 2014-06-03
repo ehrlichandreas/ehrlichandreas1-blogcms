@@ -40,6 +40,8 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
         
         $this->_install_version_10001();
         
+        $this->_install_version_10002();
+        
         return $this;
     }
     
@@ -275,6 +277,58 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
 		$queries[] = str_replace('%table%', $tableBlog, implode("\n", $query));
 		
 		$queries[] = str_replace('%table%', $tableComment, implode("\n", $query));
+		
+		$queries[] = str_replace('%table%', $tablePost, implode("\n", $query));
+        
+        
+        if ($versionDb < $version)
+        {
+            foreach ($queries as $query)
+            {
+                $stmt = $dbAdapter->query($query);
+
+                $stmt->closeCursor();
+            }
+            
+            $this->_setVersion($dbAdapter, $tableVersion, $version);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return EhrlichAndreas_StockCms_Adapter_Pdo_Mysql
+     */
+    protected function _install_version_10002 ()
+    {
+        $version = '10002';
+        
+        $dbAdapter = $this->getConnection();
+        
+        $tableVersion = $this->getTableName($this->tableVersion);
+        
+        $versionDb = $this->_getVersion($dbAdapter, $tableVersion);
+        
+        if ($versionDb >= $version)
+        {
+            return $this;
+        }
+        
+        $tableBlog = $this->getTableName($this->tableBlog);
+        
+        $tableComment = $this->getTableName($this->tableComment);
+        
+        $tablePost = $this->getTableName($this->tablePost);
+        
+        $queries = array();
+        
+        
+        $query = array();
+
+        $query[] = 'ALTER TABLE `%table%` ';
+        $query[] = 'CHANGE ';
+        $query[] = '`menu_order` `menu_order` BIGINT(19) NOT NULL DEFAULT  \'0\'; ';
 		
 		$queries[] = str_replace('%table%', $tablePost, implode("\n", $query));
         

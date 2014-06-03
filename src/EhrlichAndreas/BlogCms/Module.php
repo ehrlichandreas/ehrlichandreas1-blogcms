@@ -546,7 +546,7 @@ class EhrlichAndreas_BlogCms_Module extends EhrlichAndreas_AbstractCms_Module
         
         if (! isset($params['menu_order']))
         {
-            $params['menu_order'] = '';
+            $params['menu_order'] = '0';
         }
         
         if (! isset($params['guid']))

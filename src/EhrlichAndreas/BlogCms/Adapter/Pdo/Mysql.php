@@ -10,19 +10,19 @@ class EhrlichAndreas_BlogCms_Adapter_Pdo_Mysql extends EhrlichAndreas_AbstractCm
      *
      * @var string
      */
-    private $tableBlog = 'blog_blog';
+    protected $tableBlog = 'blog_blog';
 
     /**
      *
      * @var string
      */
-    private $tableComment = 'blog_comment';
+    protected $tableComment = 'blog_comment';
 
     /**
      *
      * @var string
      */
-    private $tablePost = 'blog_post';
+    protected $tablePost = 'blog_post';
     
     /**
      *
